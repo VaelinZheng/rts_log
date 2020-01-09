@@ -88,7 +88,7 @@ typedef void (*rts_log_putchar_t)(char ch);
 
 void rts_log_init(rts_log_init_t init,rts_log_putchar_t putchar);
 #else
-#define RTS_LOG_init(init,putchar) do{}while(0)  //avoid link not declared
+#define rts_log_init(init,putchar) do{}while(0)  //avoid link not declared
 
 #endif
 
