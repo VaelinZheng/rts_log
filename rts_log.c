@@ -41,7 +41,7 @@ void rts_log_init(rts_log_init_t init,rts_log_putchar_t putchar)
     if(__init&&__putchar)
     {
         __init();
-        rts_log("\r\nrt log V%d.%d.%d\r\n\r\n",RTS_LOG_VERSION_MAJOR,RTS_LOG_VERSION_MINOR,RTS_LOG_VERSION_REVISION);
+        rts_log("\r\nrts log V%d.%d.%d\r\n\r\n",RTS_LOG_VERSION_MAJOR,RTS_LOG_VERSION_MINOR,RTS_LOG_VERSION_REVISION);
     }
     else
     {
