@@ -79,6 +79,12 @@ extern "C" {
     #define rts_log_waring(format,...)   do{}while(0)
     #define rts_log_error(format,...)    do{}while(0)
 #endif
+#else
+    #define rts_log(format,...)          do{}while(0)
+    #define rts_log_debug(format,...)    do{}while(0)
+    #define rts_log_info(format,...)     do{}while(0)
+    #define rts_log_waring(format,...)   do{}while(0)
+    #define rts_log_error(format,...)    do{}while(0)
 #endif
 
 //log init funtion
