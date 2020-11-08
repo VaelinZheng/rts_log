@@ -1,3 +1,14 @@
+/*
+ * Copyright (c) 2020, Xiaojin.Zheng
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Change Logs:
+ * Date             Author                  Notes
+ * 2020-11-08       Xiaojin.Zheng           add license
+ *
+*/
+
 #include "rts_log.h"
 #ifdef USE_RTS_LOG
 
@@ -16,11 +27,11 @@ void __SEGGER_RTT_PutChar(char ch)
 {
     SEGGER_RTT_PutChar(0,ch);
 }
-static rts_log_init_t    __init     =SEGGER_RTT_Init;
-static rts_log_putchar_t __putchar  =__SEGGER_RTT_PutChar;
+static void(*__init)(void)       = SEGGER_RTT_Init;
+static void(*__putchar)(char ch) = __SEGGER_RTT_PutChar;
 #else
-static rts_log_init_t    __init     =NULL;
-static rts_log_putchar_t __putchar  =NULL;
+static void(*__init)(void)       = NULL;
+static void(*__putchar)(char ch) = NULL;
 #endif
 
 
@@ -30,7 +41,7 @@ int fputc(int ch, FILE *f)
     return (ch);
 }
 
-void rts_log_init(rts_log_init_t init,rts_log_putchar_t putchar)
+void rts_log_init(void(*init)(void),void(*putchar)(char ch))
 {
     if(init&&putchar)
     {
@@ -45,7 +56,7 @@ void rts_log_init(rts_log_init_t init,rts_log_putchar_t putchar)
     }
     else
     {
-        //normal can not to here
+        //normal can not be here
         while(1);
     }
 }

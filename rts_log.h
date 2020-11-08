@@ -1,3 +1,14 @@
+/*
+ * Copyright (c) 2020, Xiaojin.Zheng
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Change Logs:
+ * Date             Author                  Notes
+ * 2020-11-08       Xiaojin.Zheng           add license
+ *
+*/
+
 #ifndef _RTS_LOG_H
 #define _RTS_LOG_H
 #ifdef __cplusplus
@@ -89,10 +100,13 @@ extern "C" {
 
 //log init funtion
 #ifdef USE_RTS_LOG
-typedef void (*rts_log_init_t)(void);
-typedef void (*rts_log_putchar_t)(char ch);
 
-void rts_log_init(rts_log_init_t init,rts_log_putchar_t putchar);
+/*
+ * init & putchar input NULL will use rtt as default
+ *
+ */
+void rts_log_init(void(*init)(void),void(*putchar)(char ch));
+
 #else
 #define rts_log_init(init,putchar) do{}while(0)  //avoid link not declared
 
