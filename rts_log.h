@@ -18,7 +18,7 @@ extern "C" {
 #include "rts_cfg.h"
 #endif
 
-#ifdef USE_RTS_LOG
+#if (RTS_LOG_ENABLE)
 #include "stdio.h"
 
 //log level define
@@ -29,15 +29,12 @@ extern "C" {
 #define RTS_LOG_LEVEL_DEBUG    4
 
 
-#ifndef USE_RTS_LOG_LEVEL
-#define USE_RTS_LOG_LEVEL    RTS_LOG_LEVEL_DEFAULT
+#ifndef RTS_LOG_LEVEL
+#define RTS_LOG_LEVEL    RTS_LOG_LEVEL_DEFAULT
 #endif
 
 //color define
-#ifdef USE_RTS_LOG_COLOR
-    #ifndef USE_RTS_LOG_BACKEND_SEGGER_RTT
-    #error "RTS_LOG_COLOR only support segger rtt"
-    #endif
+#if (RTS_LOG_COLOR_ENABLE)
     #include "segger_rtt/SEGGER_RTT.h"
     #define LOG_COLOR   RTT_CTRL_TEXT_WHITE
     #define LOG_D_COLOR RTT_CTRL_TEXT_WHITE
@@ -53,31 +50,31 @@ extern "C" {
 #endif
 
 //log define
-#if USE_RTS_LOG_LEVEL==RTS_LOG_LEVEL_DEFAULT
+#if RTS_LOG_LEVEL==RTS_LOG_LEVEL_DEFAULT
     #define rts_log(format,...)          printf(LOG_COLOR format,##__VA_ARGS__)
     #define rts_log_debug(format,...)    do{}while(0)
     #define rts_log_info(format,...)     do{}while(0)
     #define rts_log_waring(format,...)   do{}while(0)
     #define rts_log_error(format,...)    do{}while(0)
-#elif USE_RTS_LOG_LEVEL==RTS_LOG_LEVEL_ERROR
+#elif RTS_LOG_LEVEL==RTS_LOG_LEVEL_ERROR
     #define rts_log(format,...)          printf(LOG_COLOR format,##__VA_ARGS__)
     #define rts_log_debug(format,...)    do{}while(0)
     #define rts_log_info(format,...)     do{}while(0)
     #define rts_log_waring(format,...)   do{}while(0)
     #define rts_log_error(format,...)    printf(LOG_E_COLOR"[E]"format,##__VA_ARGS__)
-#elif USE_RTS_LOG_LEVEL==RTS_LOG_LEVEL_WARNING
+#elif RTS_LOG_LEVEL==RTS_LOG_LEVEL_WARNING
     #define rts_log(format,...)          printf(LOG_COLOR format,##__VA_ARGS__)
     #define rts_log_debug(format,...)    do{}while(0)
     #define rts_log_info(format,...)     do{}while(0)
     #define rts_log_waring(format,...)   printf(LOG_W_COLOR"[W]"format,##__VA_ARGS__)
     #define rts_log_error(format,...)    printf(LOG_E_COLOR"[E]"format,##__VA_ARGS__)
-#elif USE_RTS_LOG_LEVEL==RTS_LOG_LEVEL_INFO
+#elif RTS_LOG_LEVEL==RTS_LOG_LEVEL_INFO
     #define rts_log(format,...)          printf(LOG_COLOR format,##__VA_ARGS__)
     #define rts_log_debug(format,...)    do{}while(0)
     #define rts_log_info(format,...)     printf(LOG_I_COLOR"[I]"format,##__VA_ARGS__)
     #define rts_log_waring(format,...)   printf(LOG_W_COLOR"[W]"format,##__VA_ARGS__)
     #define rts_log_error(format,...)    printf(LOG_E_COLOR"[E]"format,##__VA_ARGS__)
-#elif USE_RTS_LOG_LEVEL==RTS_LOG_LEVEL_DEBUG
+#elif RTS_LOG_LEVEL==RTS_LOG_LEVEL_DEBUG
     #define rts_log(format,...)          printf(LOG_COLOR format,##__VA_ARGS__)
     #define rts_log_debug(format,...)    printf(LOG_D_COLOR"[D]"format,##__VA_ARGS__)
     #define rts_log_info(format,...)     printf(LOG_I_COLOR"[I]"format,##__VA_ARGS__)
@@ -90,16 +87,10 @@ extern "C" {
     #define rts_log_waring(format,...)   do{}while(0)
     #define rts_log_error(format,...)    do{}while(0)
 #endif
-#else
-    #define rts_log(format,...)          do{}while(0)
-    #define rts_log_debug(format,...)    do{}while(0)
-    #define rts_log_info(format,...)     do{}while(0)
-    #define rts_log_waring(format,...)   do{}while(0)
-    #define rts_log_error(format,...)    do{}while(0)
 #endif
 
 //log init funtion
-#ifdef USE_RTS_LOG
+#if (RTS_LOG_ENABLE)
 
 /*
  * init & putchar input NULL will use rtt as default
@@ -108,7 +99,14 @@ extern "C" {
 void rts_log_init(void(*init)(void),void(*putchar)(char ch));
 
 #else
-#define rts_log_init(init,putchar) do{}while(0)  //avoid link not declared
+//avoid link not declared
+#define rts_log_init(init,putchar)  do{}while(0)
+
+#define rts_log(format,...)          do{}while(0)
+#define rts_log_debug(format,...)    do{}while(0)
+#define rts_log_info(format,...)     do{}while(0)
+#define rts_log_waring(format,...)   do{}while(0)
+#define rts_log_error(format,...)    do{}while(0)
 
 #endif
 

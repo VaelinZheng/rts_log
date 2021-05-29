@@ -10,7 +10,7 @@
 */
 
 #include "rts_log.h"
-#ifdef USE_RTS_LOG
+#if (RTS_LOG_ENABLE)
 
 /** X.x.x: Major version */
 #define RTS_LOG_VERSION_MAJOR      1
@@ -21,7 +21,7 @@
 
 #include "stdio.h"
 
-#ifdef USE_RTS_LOG_BACKEND_SEGGER_RTT
+#if (RTS_LOG_BACKEND==RTS_LOG_BACKEND_RTT)
 #include "segger_rtt/SEGGER_RTT.h"
 void __SEGGER_RTT_PutChar(char ch)
 {
