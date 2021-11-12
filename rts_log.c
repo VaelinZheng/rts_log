@@ -52,7 +52,12 @@ void rts_log_init(void(*init)(void),void(*putchar)(char ch))
     if(__init&&__putchar)
     {
         __init();
+#if (RTS_LOGO_ENABLE)
+        #include "rts_logo.h"
+        rts_log(rts_logo);
+#else
         rts_log("\r\nrts log V%d.%d.%d\r\n\r\n",RTS_LOG_VERSION_MAJOR,RTS_LOG_VERSION_MINOR,RTS_LOG_VERSION_REVISION);
+#endif
     }
     else
     {
