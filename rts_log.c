@@ -37,7 +37,9 @@ static void(*__putchar)(char ch) = NULL;
 
 int fputc(int ch, FILE *f)
 {
-    __putchar(ch);
+    (void) f;//unused
+
+    __putchar((char)ch);
     return (ch);
 }
 
@@ -54,7 +56,7 @@ void rts_log_init(void(*init)(void),void(*putchar)(char ch))
         __init();
 #if (RTS_LOGO_ENABLE)
         #include "rts_logo.h"
-        rts_log(rts_logo);
+        rts_log("%s",rts_logo);
 #else
         rts_log("\r\nrts log V%d.%d.%d\r\n\r\n",RTS_LOG_VERSION_MAJOR,RTS_LOG_VERSION_MINOR,RTS_LOG_VERSION_REVISION);
 #endif
