@@ -1,0 +1,40 @@
+//=======================================================
+// <e>RTS_LOG_ENABLE
+#ifndef RTS_LOG_ENABLE
+#define RTS_LOG_ENABLE                      			0
+#endif
+
+// <o>RTS_LOG_LEVEL
+//      <i> Default:DEFAULT
+//      <0=> DEFAULT
+//      <1=> ERROR
+//      <2=> WARNING
+//      <3=> INFO
+//      <4=> DEBUG
+#ifndef RTS_LOG_LEVEL
+#define RTS_LOG_LEVEL                       			0
+#endif
+
+#define RTS_LOG_BACKEND_RTT                 			0
+#define RTS_LOG_BACKEND_CUSTOM              			1
+// <o>RTS_LOG_BACKEND
+//      <i> Default:RTT
+//      <0=> RTT
+//      <1=> CUSTOM
+#ifndef RTS_LOG_BACKEND
+#define RTS_LOG_BACKEND                     			0
+#endif
+
+// <o>RTS_LOG_COLOR
+//      <i> Default:DISABLE
+//      <0=> DISABLE
+//      <1=> ENABLE
+#ifndef RTS_LOG_COLOR_ENABLE
+#define RTS_LOG_COLOR_ENABLE                			0
+#endif
+#if (RTS_LOG_ENABLE && RTS_LOG_BACKEND!=RTS_LOG_BACKEND_RTT)
+#error "RTS_LOG_COLOR only support RTS_LOG_BACKEND_RTT"
+#endif
+// </e>
+//=======================================================
+
