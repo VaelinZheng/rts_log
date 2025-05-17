@@ -1,12 +1,12 @@
 /*
- * Copyright (c) 2020, Xiaojin.Zheng
+ * Copyright (c) 2020-2025, Xiaojin.Zheng
  *
  * SPDX-License-Identifier: Apache-2.0
  *
  * Change Logs:
  * Date             Author                  Notes
  * 2020-11-08       Xiaojin.Zheng           add license
- *
+ * 2025-05-08       Xiaojin.Zheng           add support tag & dump hex
 */
 
 #include "rts_log.h"
@@ -15,7 +15,7 @@
 /** X.x.x: Major version */
 #define RTS_LOG_VERSION_MAJOR      1
 /** x.X.x: Minor version */
-#define RTS_LOG_VERSION_MINOR      0
+#define RTS_LOG_VERSION_MINOR      1
 /** x.x.X: Revision*/
 #define RTS_LOG_VERSION_REVISION   0
 
