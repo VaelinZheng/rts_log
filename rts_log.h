@@ -7,6 +7,7 @@
  * Date             Author                  Notes
  * 2020-11-08       Xiaojin.Zheng           add license
  * 2025-05-08       Xiaojin.Zheng           add support tag & dump hex
+ * 2025-12-16       Xiaojin.Zheng           add support Kconfig
 */
 
 #ifndef _RTS_LOG_H
@@ -18,23 +19,30 @@ extern "C" {
 #include "rts_cfg.h"
 #endif
 
-#if (RTS_LOG_ENABLE)
+#if defined(CONFIG_RTS_LOG_ENABLE) && (CONFIG_RTS_LOG_ENABLE == 1)
 #include "stdio.h"
 
 //log level define
-#define RTS_LOG_LEVEL_DEFAULT  0
-#define RTS_LOG_LEVEL_ERROR    1
-#define RTS_LOG_LEVEL_WARNING  2
-#define RTS_LOG_LEVEL_INFO     3
-#define RTS_LOG_LEVEL_DEBUG    4
+#define RTS_LOG_LEVEL_NONE    0
+#define RTS_LOG_LEVEL_ERROR   1
+#define RTS_LOG_LEVEL_WARNING 2
+#define RTS_LOG_LEVEL_INFO    3
+#define RTS_LOG_LEVEL_DEBUG   4
 
-
-#ifndef RTS_LOG_LEVEL
-#define RTS_LOG_LEVEL    RTS_LOG_LEVEL_DEFAULT
+#if defined(CONFIG_RTS_LOG_LEVEL_DEBUG)
+    #define RTS_LOG_LEVEL RTS_LOG_LEVEL_DEBUG
+#elif defined(CONFIG_RTS_LOG_LEVEL_INFO)
+    #define RTS_LOG_LEVEL RTS_LOG_LEVEL_INFO
+#elif defined(CONFIG_RTS_LOG_LEVEL_WARN)
+    #define RTS_LOG_LEVEL RTS_LOG_LEVEL_WARNING
+#elif defined(CONFIG_RTS_LOG_LEVEL_ERROR)
+    #define RTS_LOG_LEVEL RTS_LOG_LEVEL_ERROR
+#else // CONFIG_RTS_LOG_LEVEL_NONE or not defined
+    #define RTS_LOG_LEVEL RTS_LOG_LEVEL_NONE
 #endif
 
-//color define
-#if (RTS_LOG_COLOR_ENABLE)
+// color define
+#if defined(CONFIG_RTS_LOG_USE_COLOR) && (CONFIG_RTS_LOG_USE_COLOR == 1)
     #include "segger_rtt/SEGGER_RTT.h"
     #define LOG_COLOR   RTT_CTRL_TEXT_WHITE
     #define LOG_D_COLOR RTT_CTRL_TEXT_WHITE
@@ -50,46 +58,39 @@ extern "C" {
 #endif
 
 //log define
-#if RTS_LOG_LEVEL==RTS_LOG_LEVEL_DEFAULT
-    #define rts_log(format,...)          printf(LOG_COLOR format,##__VA_ARGS__)
-    #define rts_log_debug(format,...)    printf(LOG_D_COLOR RTS_LOG_TAG format,##__VA_ARGS__)
-    #define rts_log_info(format,...)     printf(LOG_I_COLOR RTS_LOG_TAG format,##__VA_ARGS__)
-    #define rts_log_waring(format,...)   printf(LOG_W_COLOR RTS_LOG_TAG format,##__VA_ARGS__)
-    #define rts_log_error(format,...)    printf(LOG_E_COLOR RTS_LOG_TAG format,##__VA_ARGS__)
-#elif RTS_LOG_LEVEL==RTS_LOG_LEVEL_ERROR
+#if RTS_LOG_LEVEL==RTS_LOG_LEVEL_ERROR
     #define rts_log(format,...)          printf(LOG_COLOR format,##__VA_ARGS__)
     #define rts_log_debug(format,...)    do{}while(0)
     #define rts_log_info(format,...)     do{}while(0)
-    #define rts_log_waring(format,...)   do{}while(0)
+    #define rts_log_warning(format,...)  do{}while(0)
     #define rts_log_error(format,...)    printf(LOG_E_COLOR RTS_LOG_TAG format,##__VA_ARGS__)
 #elif RTS_LOG_LEVEL==RTS_LOG_LEVEL_WARNING
     #define rts_log(format,...)          printf(LOG_COLOR format,##__VA_ARGS__)
     #define rts_log_debug(format,...)    do{}while(0)
     #define rts_log_info(format,...)     do{}while(0)
-    #define rts_log_waring(format,...)   printf(LOG_W_COLOR RTS_LOG_TAG format,##__VA_ARGS__)
+    #define rts_log_warning(format,...)  printf(LOG_W_COLOR RTS_LOG_TAG format,##__VA_ARGS__)
     #define rts_log_error(format,...)    printf(LOG_E_COLOR RTS_LOG_TAG format,##__VA_ARGS__)
 #elif RTS_LOG_LEVEL==RTS_LOG_LEVEL_INFO
     #define rts_log(format,...)          printf(LOG_COLOR format,##__VA_ARGS__)
     #define rts_log_debug(format,...)    do{}while(0)
     #define rts_log_info(format,...)     printf(LOG_I_COLOR RTS_LOG_TAG format,##__VA_ARGS__)
-    #define rts_log_waring(format,...)   printf(LOG_W_COLOR RTS_LOG_TAG format,##__VA_ARGS__)
+    #define rts_log_warning(format,...)  printf(LOG_W_COLOR RTS_LOG_TAG format,##__VA_ARGS__)
     #define rts_log_error(format,...)    printf(LOG_E_COLOR RTS_LOG_TAG format,##__VA_ARGS__)
 #elif RTS_LOG_LEVEL==RTS_LOG_LEVEL_DEBUG
     #define rts_log(format,...)          printf(LOG_COLOR format,##__VA_ARGS__)
     #define rts_log_debug(format,...)    printf(LOG_D_COLOR RTS_LOG_TAG format,##__VA_ARGS__)
     #define rts_log_info(format,...)     printf(LOG_I_COLOR RTS_LOG_TAG format,##__VA_ARGS__)
-    #define rts_log_waring(format,...)   printf(LOG_W_COLOR RTS_LOG_TAG format,##__VA_ARGS__)
+    #define rts_log_warning(format,...)  printf(LOG_W_COLOR RTS_LOG_TAG format,##__VA_ARGS__)
     #define rts_log_error(format,...)    printf(LOG_E_COLOR RTS_LOG_TAG format,##__VA_ARGS__)
 #else
     #define rts_log(format,...)          do{}while(0)
     #define rts_log_debug(format,...)    do{}while(0)
     #define rts_log_info(format,...)     do{}while(0)
-    #define rts_log_waring(format,...)   do{}while(0)
+    #define rts_log_warning(format,...)  do{}while(0)
     #define rts_log_error(format,...)    do{}while(0)
 #endif
-#endif
 
-#if (RTS_LOG_ENABLE)
+#if RTS_LOG_LEVEL != RTS_LOG_LEVEL_NONE
 #define rts_log_dump_hex(data, len)                \
     do {                                           \
         printf("dump hex:\r\n");                   \
@@ -101,9 +102,6 @@ extern "C" {
         printf("\r\n");                            \
     } while(0)
 #endif
-
-//log init funtion
-#if (RTS_LOG_ENABLE)
 
 /*
  * init & putchar input NULL will use rtt as default
@@ -118,7 +116,7 @@ void rts_log_init(void(*init)(void),void(*putchar)(char ch));
 #define rts_log(format,...)          do{}while(0)
 #define rts_log_debug(format,...)    do{}while(0)
 #define rts_log_info(format,...)     do{}while(0)
-#define rts_log_waring(format,...)   do{}while(0)
+#define rts_log_warning(format,...)  do{}while(0)
 #define rts_log_error(format,...)    do{}while(0)
 #define rts_log_dump_hex(data, len)  do{}while(0)
 #endif

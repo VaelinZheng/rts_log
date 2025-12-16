@@ -7,21 +7,14 @@
  * Date             Author                  Notes
  * 2020-11-08       Xiaojin.Zheng           add license
  * 2025-05-08       Xiaojin.Zheng           add support tag & dump hex
+ * 2025-12-16       Xiaojin.Zheng           add support Kconfig
 */
 
 #include "rts_log.h"
-#if (RTS_LOG_ENABLE)
-
-/** X.x.x: Major version */
-#define RTS_LOG_VERSION_MAJOR      1
-/** x.X.x: Minor version */
-#define RTS_LOG_VERSION_MINOR      1
-/** x.x.X: Revision*/
-#define RTS_LOG_VERSION_REVISION   0
-
+#if defined(CONFIG_RTS_LOG_ENABLE) && (CONFIG_RTS_LOG_ENABLE == 1)
 #include "stdio.h"
 
-#if (RTS_LOG_BACKEND==RTS_LOG_BACKEND_RTT)
+#if defined(CONFIG_RTS_LOG_BACKEND_RTT) && (CONFIG_RTS_LOG_BACKEND_RTT == 1)
 #include "segger_rtt/SEGGER_RTT.h"
 void __SEGGER_RTT_PutChar(char ch)
 {
@@ -54,7 +47,7 @@ void rts_log_init(void(*init)(void),void(*putchar)(char ch))
     if(__init&&__putchar)
     {
         __init();
-#if (RTS_LOGO_ENABLE)
+#if defined(CONFIG_RTS_LOGO_ENABLE) && (CONFIG_RTS_LOGO_ENABLE == 1)
         #include "rts_logo.h"
         rts_log("%s",rts_logo);
 #else

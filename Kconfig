@@ -1,0 +1,52 @@
+# Kconfig for rts log
+
+menu "rts log"
+
+config RTS_LOG_ENABLE
+    bool "Enable rts log"
+    default y
+    help
+        Select this to enable the rts log component.
+
+choice RTS_LOG_LEVEL
+    prompt "Maximum log level"
+    default RTS_LOG_LEVEL_INFO
+    depends on RTS_LOG_ENABLE
+    help
+        Select the maximum log level to output.
+    config RTS_LOG_LEVEL_NONE
+        bool "No output"
+    config RTS_LOG_LEVEL_ERROR
+        bool "Error"
+    config RTS_LOG_LEVEL_WARN
+        bool "Warning"
+    config RTS_LOG_LEVEL_INFO
+        bool "Info"
+    config RTS_LOG_LEVEL_DEBUG
+        bool "Debug"
+endchoice
+
+choice RTS_LOG_BACKEND
+    prompt "Log backend"
+    default RTS_LOG_BACKEND_RTT
+    depends on RTS_LOG_ENABLE
+    help
+        Select the backend for log output.
+
+    config RTS_LOG_BACKEND_RTT
+        bool "RTT backend"
+
+    config RTS_LOG_BACKEND_CUSTOM
+        bool "Custom backend"
+
+endchoice
+
+config RTS_LOG_USE_COLOR
+    bool "Use color for log output"
+    default y
+    depends on RTS_LOG_ENABLE && RTS_LOG_BACKEND_RTT
+    help
+        Enable this to add ANSI color codes to the log output.
+        This option is only available when RTT backend is selected.
+
+endmenu
