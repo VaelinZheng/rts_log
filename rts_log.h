@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2025, Xiaojin.Zheng
+ * Copyright (c) 2020-2026, Xiaojin.Zheng
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -8,6 +8,7 @@
  * 2020-11-08       Xiaojin.Zheng           add license
  * 2025-05-08       Xiaojin.Zheng           add support tag & dump hex
  * 2025-12-16       Xiaojin.Zheng           add support Kconfig
+ * 2026-01-08       Xiaojin.Zheng           add support GCC compiler
 */
 
 #ifndef _RTS_LOG_H

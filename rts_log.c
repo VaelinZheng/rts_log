@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2025, Xiaojin.Zheng
+ * Copyright (c) 2020-2026, Xiaojin.Zheng
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -8,6 +8,7 @@
  * 2020-11-08       Xiaojin.Zheng           add license
  * 2025-05-08       Xiaojin.Zheng           add support tag & dump hex
  * 2025-12-16       Xiaojin.Zheng           add support Kconfig
+ * 2026-01-08       Xiaojin.Zheng           add support GCC compiler
 */
 
 #include "rts_log.h"
@@ -28,13 +29,34 @@ static void(*__putchar)(char ch) = NULL;
 #endif
 
 
+#if defined(__GNUC__)
+/* With GCC, printf directs to `_write`. */
+int _write(int file, char *ptr, int len)
+{
+    (void)file; // Unused.
+
+    for (int i = 0; i < len; i++)
+    {
+        if(__putchar)
+        {
+            __putchar(*ptr++);
+        }
+    }
+    return len;
+}
+#elif defined(__CC_ARM) || defined(__ICCARM__)
+/* With ARMCC or IAR, printf directs to `fputc`. */
 int fputc(int ch, FILE *f)
 {
-    (void) f;//unused
+    (void)f; // Unused.
 
-    __putchar((char)ch);
-    return (ch);
+    if(__putchar)
+    {
+        __putchar((char)ch);
+    }
+    return ch;
 }
+#endif
 
 void rts_log_init(void(*init)(void),void(*putchar)(char ch))
 {
