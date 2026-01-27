@@ -16,12 +16,27 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#ifdef USE_RTS_CFG
-#include "rts_cfg.h"
+#if defined(CONFIG_KCONFIG_HEADER_FILE)
+    #if defined(__C51__) || defined(__CC_ARM)
+        #define _RTS_MACRO_TO_STR_IMPL(s) #s
+        #define _RTS_MACRO_TO_STR(s) _RTS_MACRO_TO_STR_IMPL(s)
+        #include _RTS_MACRO_TO_STR(CONFIG_KCONFIG_HEADER_FILE)
+        #undef _RTS_MACRO_TO_STR
+        #undef _RTS_MACRO_TO_STR_IMPL
+    #else
+        #include CONFIG_KCONFIG_HEADER_FILE
+    #endif
 #endif
 
 #if defined(CONFIG_RTS_LOG_ENABLE) && (CONFIG_RTS_LOG_ENABLE == 1)
 #include "stdio.h"
+
+/** X.x.x: Major version */
+#define RTS_LOG_VERSION_MAJOR      1
+/** x.X.x: Minor version */
+#define RTS_LOG_VERSION_MINOR      1
+/** x.x.X: Revision*/
+#define RTS_LOG_VERSION_REVISION   0
 
 //log level define
 #define RTS_LOG_LEVEL_NONE    0
