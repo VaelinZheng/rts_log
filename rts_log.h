@@ -16,15 +16,15 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#if defined(CONFIG_KCONFIG_HEADER_FILE)
-    #if defined(__C51__) || defined(__CC_ARM)
+#if defined(KCONFIG_HEADER_FILE)
+    #if defined(__C51__) || defined(__ARMCC_VERSION)
         #define _RTS_MACRO_TO_STR_IMPL(s) #s
         #define _RTS_MACRO_TO_STR(s) _RTS_MACRO_TO_STR_IMPL(s)
-        #include _RTS_MACRO_TO_STR(CONFIG_KCONFIG_HEADER_FILE)
+        #include _RTS_MACRO_TO_STR(KCONFIG_HEADER_FILE)
         #undef _RTS_MACRO_TO_STR
         #undef _RTS_MACRO_TO_STR_IMPL
     #else
-        #include CONFIG_KCONFIG_HEADER_FILE
+        #include KCONFIG_HEADER_FILE
     #endif
 #endif
 

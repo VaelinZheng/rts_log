@@ -28,8 +28,19 @@ static void(*__init)(void)       = NULL;
 static void(*__putchar)(char ch) = NULL;
 #endif
 
+#if defined(__ARMCC_VERSION) || defined(__ICCARM__)
+/* With ARMCC or IAR, printf directs to `fputc`. */
+int fputc(int ch, FILE *f)
+{
+    (void)f; // Unused.
 
-#if defined(__GNUC__)
+    if(__putchar)
+    {
+        __putchar((char)ch);
+    }
+    return ch;
+}
+#elif defined(__GNUC__)
 /* With GCC, printf directs to `_write`. */
 int _write(int file, char *ptr, int len)
 {
@@ -43,18 +54,6 @@ int _write(int file, char *ptr, int len)
         }
     }
     return len;
-}
-#elif defined(__CC_ARM) || defined(__ICCARM__)
-/* With ARMCC or IAR, printf directs to `fputc`. */
-int fputc(int ch, FILE *f)
-{
-    (void)f; // Unused.
-
-    if(__putchar)
-    {
-        __putchar((char)ch);
-    }
-    return ch;
 }
 #endif
 
