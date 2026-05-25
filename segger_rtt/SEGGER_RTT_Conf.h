@@ -62,6 +62,8 @@ Revision: $Rev: 24316 $
   #include <intrinsics.h>
 #endif
 
+#include "rts_log_backend_rtt_conf.h"
+
 /*********************************************************************
 *
 *       Defines, configurable

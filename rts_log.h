@@ -36,7 +36,7 @@ extern "C" {
 /** x.X.x: Minor version */
 #define RTS_LOG_VERSION_MINOR      1
 /** x.x.X: Revision*/
-#define RTS_LOG_VERSION_REVISION   0
+#define RTS_LOG_VERSION_REVISION   1
 
 //log level define
 #define RTS_LOG_LEVEL_NONE    0

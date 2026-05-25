@@ -41,6 +41,38 @@ choice RTS_LOG_BACKEND
 
 endchoice
 
+config SEGGER_RTT_MAX_NUM_UP_BUFFERS
+    int "Number of RTT up-buffers (target to host)"
+    default 1
+    depends on RTS_LOG_ENABLE && RTS_LOG_BACKEND_RTT
+    help
+        Set the number of RTT up-buffers (target to host) available on this target.
+        This option is only available when RTT backend is selected.
+
+config SEGGER_RTT_BUFFER_SIZE_UP
+    int "Size of RTT up-buffer (target to host)"
+    default 128
+    depends on RTS_LOG_ENABLE && RTS_LOG_BACKEND_RTT
+    help
+        Set the size of the RTT up-buffer (target to host) available on this target.
+        This option is only available when RTT backend is selected.
+
+config SEGGER_RTT_MAX_NUM_DOWN_BUFFERS
+    int "Number of RTT down-buffers (host to target)"
+    default 0
+    depends on RTS_LOG_ENABLE && RTS_LOG_BACKEND_RTT
+    help
+        Set the number of RTT down-buffers (host to target) available on this target.
+        This option is only available when RTT backend is selected.
+
+config SEGGER_RTT_BUFFER_SIZE_DOWN
+    int "Size of RTT down-buffer (host to target)"
+    default 16
+    depends on RTS_LOG_ENABLE && RTS_LOG_BACKEND_RTT
+    help
+        Set the size of the RTT down-buffer (host to target) available on this target.
+        This option is only available when RTT backend is selected.
+
 config RTS_LOG_USE_COLOR
     bool "Use color for log output"
     default y
