@@ -59,7 +59,7 @@ config SEGGER_RTT_BUFFER_SIZE_UP
 
 config SEGGER_RTT_MAX_NUM_DOWN_BUFFERS
     int "Number of RTT down-buffers (host to target)"
-    default 0
+    default 1
     depends on RTS_LOG_ENABLE && RTS_LOG_BACKEND_RTT
     help
         Set the number of RTT down-buffers (host to target) available on this target.

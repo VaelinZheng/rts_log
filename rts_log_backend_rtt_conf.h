@@ -2,18 +2,18 @@
 #define _RTS_LOG_BACKEND_RTT_CONF_H_
 #include "rts_log.h"
 
-// Max. number of up-buffers (T->H) available on this target    (Default: 0)
+// Max. number of up-buffers (T->H) available on this target    (Default: 1)
 #if (CONFIG_SEGGER_RTT_MAX_NUM_UP_BUFFERS)
 #define SEGGER_RTT_MAX_NUM_UP_BUFFERS CONFIG_SEGGER_RTT_MAX_NUM_UP_BUFFERS
 #else
 #define SEGGER_RTT_MAX_NUM_UP_BUFFERS (1)
 #endif
 
-// Max. number of down-buffers (H->T) available on this target  (Default: 0)
+// Max. number of down-buffers (H->T) available on this target  (Default: 1)
 #if (CONFIG_SEGGER_RTT_MAX_NUM_DOWN_BUFFERS)
 #define SEGGER_RTT_MAX_NUM_DOWN_BUFFERS CONFIG_SEGGER_RTT_MAX_NUM_DOWN_BUFFERS
 #else
-#define SEGGER_RTT_MAX_NUM_DOWN_BUFFERS (0)
+#define SEGGER_RTT_MAX_NUM_DOWN_BUFFERS (1)
 #endif
 
 // Size of the buffer for terminal output of target, up to host (Default: 128)
