@@ -1,22 +1,15 @@
 /*
- * Copyright (c) 2020-2026, Xiaojin.Zheng
+ * Copyright (c) 2026, vaelin.zheng@gmail.com
  *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Change Logs:
- * Date             Author                  Notes
- * 2020-11-08       Xiaojin.Zheng           add license
- * 2025-05-08       Xiaojin.Zheng           add support tag & dump hex
- * 2025-12-16       Xiaojin.Zheng           add support Kconfig
- * 2026-01-08       Xiaojin.Zheng           add support GCC compiler
-*/
+ * SPDX-License-Identifier: MIT
+ */
 
 #include "rts_log.h"
 #if defined(CONFIG_RTS_LOG_ENABLE) && (CONFIG_RTS_LOG_ENABLE == 1)
 #include "stdio.h"
 
 #if defined(CONFIG_RTS_LOG_BACKEND_RTT) && (CONFIG_RTS_LOG_BACKEND_RTT == 1)
-#include "segger_rtt/SEGGER_RTT.h"
+#include "RTT/RTT/SEGGER_RTT.c"
 void __SEGGER_RTT_PutChar(char ch)
 {
     SEGGER_RTT_PutChar(0,ch);
@@ -65,15 +58,11 @@ void rts_log_init(void(*init)(void),void(*putchar)(char ch))
         __putchar=putchar;
     }
 
-    if(__init&&__putchar)
+    if(__init && __putchar)
     {
         __init();
-#if defined(CONFIG_RTS_LOGO_ENABLE) && (CONFIG_RTS_LOGO_ENABLE == 1)
-        #include "rts_logo.h"
-        rts_log("%s",rts_logo);
-#else
-        rts_log("\r\nrts log V%d.%d.%d\r\n\r\n",RTS_LOG_VERSION_MAJOR,RTS_LOG_VERSION_MINOR,RTS_LOG_VERSION_REVISION);
-#endif
+
+        rts_log("\r\nrts log V%d.%d.%d\r\n\r\n", RTS_LOG_VERSION_MAJOR, RTS_LOG_VERSION_MINOR, RTS_LOG_VERSION_PATCH);
     }
     else
     {

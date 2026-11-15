@@ -1,15 +1,8 @@
 /*
- * Copyright (c) 2020-2026, Xiaojin.Zheng
+ * Copyright (c) 2026, vaelin.zheng@gmail.com
  *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Change Logs:
- * Date             Author                  Notes
- * 2020-11-08       Xiaojin.Zheng           add license
- * 2025-05-08       Xiaojin.Zheng           add support tag & dump hex
- * 2025-12-16       Xiaojin.Zheng           add support Kconfig
- * 2026-01-08       Xiaojin.Zheng           add support GCC compiler
-*/
+ * SPDX-License-Identifier: MIT
+ */
 
 #ifndef _RTS_LOG_H
 #define _RTS_LOG_H
@@ -32,11 +25,13 @@ extern "C" {
 #include "stdio.h"
 
 /** X.x.x: Major version */
-#define RTS_LOG_VERSION_MAJOR      1
+#define RTS_LOG_VERSION_MAJOR 1
 /** x.X.x: Minor version */
-#define RTS_LOG_VERSION_MINOR      1
-/** x.x.X: Revision*/
-#define RTS_LOG_VERSION_REVISION   1
+#define RTS_LOG_VERSION_MINOR 2
+/** x.x.X: Patch version */
+#define RTS_LOG_VERSION_PATCH 0
+
+#define RTS_LOG_VERSION       ((RTS_LOG_VERSION_MAJOR << 16) | (RTS_LOG_VERSION_MINOR << 8) | (RTS_LOG_VERSION_PATCH))
 
 //log level define
 #define RTS_LOG_LEVEL_NONE    0
