@@ -54,7 +54,7 @@ extern "C" {
 
 // color define
 #if defined(CONFIG_RTS_LOG_USE_COLOR) && (CONFIG_RTS_LOG_USE_COLOR == 1)
-    #include "segger_rtt/SEGGER_RTT.h"
+    #include "RTT/RTT/SEGGER_RTT.h"
     #define LOG_COLOR   RTT_CTRL_TEXT_WHITE
     #define LOG_D_COLOR RTT_CTRL_TEXT_WHITE
     #define LOG_I_COLOR RTT_CTRL_TEXT_WHITE
